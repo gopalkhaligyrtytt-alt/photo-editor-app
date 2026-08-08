@@ -1,4 +1,4 @@
-name: Build Android AAB
+name: Build APK for Testing
 
 on:
   push:
@@ -25,16 +25,16 @@ jobs:
     - name: Install Cordova
       run: npm install -g cordova
 
-    - name: Build Cordova App
+    - name: Build Cordova APK
       run: |
         cordova create app com.mycompany.photoeditor PhotoEditor
         cp index.html app/www/index.html
         cd app
         cordova platform add android
-        cordova build android --release -- --packageType=bundle
+        cordova build android
 
-    - name: Upload AAB Artifact
+    - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: playstore-release-aab
-        path: app/platforms/android/app/build/outputs/bundle/release/app-release.aab
+        name: test-app-apk
+        path: app/platforms/android/app/build/outputs/apk/debug/app-debug.apk
